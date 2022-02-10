@@ -24,11 +24,7 @@ class LoginService {
         // No mongoDB, o campo "_doc" possui um _id, o nome de cadastro e o email de cadastro, e escolheremos por devolver esses valores
         // Esses valores serão guardado na variável usuario
         if (usuarios && usuarios.length) {
-            usuario = { 
-                id: usuarios[0]._doc._id,
-                nome: usuarios[0]._doc.nome,
-                email: usuarios[0]._doc.email,
-            }
+            usuario = usuarios[0];
         } else {
             // Caso não haja nada a ser encontrado no banco, o retorno é nulo, resultando numa falha de login no Controller
             return null;

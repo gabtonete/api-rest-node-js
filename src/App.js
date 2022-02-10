@@ -5,6 +5,8 @@ const swaggerFile = require('./swagger/swagger.json');
 
 const LoginController = require('./controllers/LoginController');
 const UsuarioController = require('./controllers/UsuarioController');
+const TarefaController = require('./controllers/TarefaController');
+
 
 const logger = require('./middlewares/logger');
 const jwt = require('./middlewares/jwt');
@@ -54,7 +56,8 @@ class App {
 	#loadControllers = () => {
 		this.#controllers = [
 			new LoginController(this.express),
-			new UsuarioController(this.express)
+			new UsuarioController(this.express),
+			new TarefaController(this.express)
 		];
 	}
 
