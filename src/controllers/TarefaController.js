@@ -7,7 +7,6 @@ class TarefaController extends HttpController {
         this.express.post(`${baseUrl}/tarefa`, this.cadastrar.bind(this));
         this.express.put(`${baseUrl}/tarefa/:id`, this.editar.bind(this));
         this.express.delete(`${baseUrl}/tarefa/:id`, this.deletar.bind(this));
-        
     }
 
     async listar(req, res) {
