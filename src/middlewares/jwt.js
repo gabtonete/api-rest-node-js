@@ -29,7 +29,11 @@ module.exports = (req, res, next) => {
                 && req.url.indexOf(rota.url.replace('*', '')) !== -1
             )
         )
-        && rota.method === req.method.toUpperCase());
+        && (
+            rota.method === req.method.toUpperCase()
+            || req.method.toUpperCase() === 'OPTIONS'
+        )
+    )
 
     if (rotaPublica) {
         req.logger.info('rota pública, acesso liberado');
