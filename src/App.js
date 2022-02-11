@@ -14,6 +14,7 @@ const jwt = require('./middlewares/jwt');
 const AppConstants = require('./enum/AppConstants');
 
 const MongoDBHelper = require('./helpers/MongoDBHelper');
+const PerfilController = require('./controllers/PerfilController');
 
 class App {
 	// Nessa array todos os controllers ficarão guardados
@@ -57,7 +58,8 @@ class App {
 		this.#controllers = [
 			new LoginController(this.express),
 			new UsuarioController(this.express),
-			new TarefaController(this.express)
+			new TarefaController(this.express),
+			new PerfilController(this.express)
 		];
 	}
 
