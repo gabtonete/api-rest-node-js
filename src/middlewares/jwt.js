@@ -14,6 +14,10 @@ const rotasPublicas = [
     {
         url: '/api/usuario',
         method: 'POST'
+    },
+    {
+        url: '/api/buscar',
+        method: 'POST'
     }
 ];
 

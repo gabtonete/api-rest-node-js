@@ -1,6 +1,7 @@
 const HttpController = require('./HttpController');
 const UsuarioService = require('../services/UsuarioService');
 
+
 class UsuarioController extends HttpController {
     // Todo controller irá extender do BaseController, ele possui uma rota já predefinida como base
     // e uma instância do express, para que seja definida a rota desse controller
@@ -9,8 +10,8 @@ class UsuarioController extends HttpController {
     }
 
     // A função que será executada ao entrar na route /usuario (POST)
-    async cadastro(req, res) { 
-        
+    async cadastro(req, res) {
+
         // Guardados os dados do body numa const
         const dadosUsuario = req.body;
 
@@ -29,7 +30,7 @@ class UsuarioController extends HttpController {
                     erro: retornoService.erros.join(',')
                 });
             }
-
+            
             // Em caso de true, o usuário é criado no banco de dados
             req.logger.info('usuário cadastrado com sucesso');
             return res.json({
@@ -42,7 +43,7 @@ class UsuarioController extends HttpController {
                 erro: 'Ocorreu um erro ao cadastrar o usuário',
                 status: 500
             })
-        }        
+        }
     }
 }
 

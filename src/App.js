@@ -6,6 +6,7 @@ const swaggerFile = require('./swagger/swagger.json');
 const LoginController = require('./controllers/LoginController');
 const UsuarioController = require('./controllers/UsuarioController');
 const TarefaController = require('./controllers/TarefaController');
+const PerfilController = require('./controllers/PerfilController');
 
 const cors = require('./middlewares/cors');
 const logger = require('./middlewares/logger');
@@ -14,7 +15,7 @@ const jwt = require('./middlewares/jwt');
 const AppConstants = require('./enum/AppConstants');
 
 const MongoDBHelper = require('./helpers/MongoDBHelper');
-const PerfilController = require('./controllers/PerfilController');
+
 
 class App {
 	// Nessa array todos os controllers ficarão guardados
