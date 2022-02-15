@@ -52,7 +52,7 @@ class LoginController extends HttpController {
         } catch (e) {
             req.logger.error("erro ao realizar login, erro=" + e.message);
 
-            req.status(500).json({
+            res.status(500).json({
                 erro: "Problema ao realizar login, tente novamente mais tarde",
                 status: 500
             });
