@@ -69,9 +69,9 @@ class App {
 
 	// Método principal que sobe o programa em uma porta definida no .env ou aqui através do método listen do express
 	#startServer = () => {
-		const port = 3001;
-		this.express.listen(port, () => {
-			console.log(`Aplicação executando na porta ${port}`);
+		const { PORT, LOCAL_ADDRESS='0.0.0.0' } = process.env;
+		this.express.listen(PORT, LOCAL_ADDRESS, () => {
+			console.log(`Aplicação executando na porta ${PORT}`);
 		});
 	}
 }

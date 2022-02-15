@@ -17,7 +17,6 @@ class LoginController extends HttpController {
 
         // guarda na const body os valores do body
         const body = req.body;
-
         try {
             // valida se os dados recebidos do body são coerentes
             if (!body || !body.login || !body.senha) {
