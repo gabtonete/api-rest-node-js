@@ -31,7 +31,7 @@ class LoginService {
         }
 
         // O método .sign do jwt criará um token com base na id do usuário e na chave secreta definida no .env 
-        const token = jwt.sign({ _id: usuario.id }, process.env.CHAVE_SECRETA_JWT);
+        const token = jwt.sign({ _id: usuario.id }, '[i35Zfl-W8nAj34O');
 
         // retorna o objeto usuario e os dados requisitados no if, e também o token de acesso com base na id desse mesmo usuário + chave secreta
         return {

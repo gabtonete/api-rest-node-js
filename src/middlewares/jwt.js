@@ -67,7 +67,7 @@ module.exports = (req, res, next) => {
     }
 
     // O método verify do jwt pega o token e a  chave secreta e o decodifica
-    jwt.verify(token, process.env.CHAVE_SECRETA_JWT, async (erro, decoded) => {
+    jwt.verify(token, '[i35Zfl-W8nAj34O', async (erro, decoded) => {
         if (erro) {
             req.logger.error('erro ao decodificar o token jwt', 'token=', token);
             return res.status(401).json({
