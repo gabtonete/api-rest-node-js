@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 class MongoDBHelper {
     // A função connect do helper usa o método connect() do mongoose, passando como parâmetro a connectionstring e as options
     static connect() {
-        const conexao = mongoose.connect(process.env.MONGO_DB_STRING_CONEXAO, {
+        const conexao = mongoose.connect('mongodb+srv://devariauser:nT4PhearF6lDje70@gerenciadortarefa2.6t0su.mongodb.net/GerenciadorTarefa2?retryWrites=true&w=majority', {
            useNewUrlParser: true,
            useUnifiedTopology: true
         });
