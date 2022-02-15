@@ -18,7 +18,5 @@
     "mongoose": "6.2.0",
     "swagger-ui-express": "4.3.0"
   },
-  "devDependencies": {
-    "nodemon": "2.0.15"
-  }
+  "devDependencies": {}
 }
