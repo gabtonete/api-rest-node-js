@@ -10,8 +10,5 @@
             "description": "DB",
             "value":"mongodb+srv://devariauser:nT4PhearF6lDje70@gerenciadortarefa2.6t0su.mongodb.net/GerenciadorTarefa2?retryWrites=true&w=majority"
         }
-    },
-    "scripts":{
-        "npm start": "npm start"
     }
 }
