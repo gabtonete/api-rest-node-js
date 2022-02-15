@@ -6,6 +6,11 @@ class LoginController extends HttpController {
     // Escolhendo qual o método http (post), e qual a função relativa à ele (login)
     setupRoutes(baseUrl) {
         this.express.post(`${baseUrl}/login`, this.login.bind(this));
+        this.express.get(`${baseUrl}/login`, this.mostrar.bind(this));
+    }
+
+    mostrar(req, res)  {
+        return res.status(200).json({msg: 'usuário logado'})
     }
 
     async login(req, res) {
