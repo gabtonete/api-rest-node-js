@@ -8,7 +8,7 @@ const UsuarioController = require('./controllers/UsuarioController');
 const TarefaController = require('./controllers/TarefaController');
 const PerfilController = require('./controllers/PerfilController');
 
-const cors = require('./middlewares/cors');
+const {cors} = require('./middlewares/cors');
 const logger = require('./middlewares/logger');
 const jwt = require('./middlewares/jwt');
 
@@ -41,7 +41,7 @@ class App {
 		this.express.use(express.json());
 
 		// Habilita o middleware do cors, evitando conexões em mesma port
-		this.express.use(require('cors'));
+		this.express.use(cors);
 
 		// Essa linha faz com que o jwt possa ser acessado de qualquer lugar do programa, tem acesso ao req e ao res
 		this.express.use(jwt);
