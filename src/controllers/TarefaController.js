@@ -1,5 +1,6 @@
 const HttpController = require('./HttpController');
 const TarefaService = require('../services/TarefaService');
+const cors = require('../middlewares/cors');
 
 class TarefaController extends HttpController {
     configurarRotas(basePath) {
@@ -100,4 +101,4 @@ class TarefaController extends HttpController {
     }
 }
 
-module.exports = TarefaController;
+module.exports = cors(TarefaController);
