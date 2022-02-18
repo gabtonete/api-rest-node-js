@@ -8,7 +8,7 @@ const UsuarioController = require('./controllers/UsuarioController');
 const TarefaController = require('./controllers/TarefaController');
 const PerfilController = require('./controllers/PerfilController');
 
-const {cors} = require('./middlewares/cors');
+const cors = require('./middlewares/cors');
 const logger = require('./middlewares/logger');
 const jwt = require('./middlewares/jwt');
 
