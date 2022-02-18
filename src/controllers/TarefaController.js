@@ -6,7 +6,10 @@ class TarefaController extends HttpController {
         this.express.get(`${baseUrl}/tarefa`, this.listar.bind(this));
         this.express.post(`${baseUrl}/tarefa`, this.cadastrar.bind(this));
         this.express.put(`${baseUrl}/tarefa/:id`, this.editar.bind(this));
-        this.express.delete(`${baseUrl}/tarefa/:id`, this.deletar.bind(this));
+        this.express.delete(`${baseUrl}/tarefa/:id`, function (req, res) {
+            res.header("Access-Control-Allow-Origin", "*");
+            this.deletar.bind(this);
+        });
     }
 
     async listar(req, res) {
@@ -16,7 +19,7 @@ class TarefaController extends HttpController {
             res.json(tarefas);
 
         } catch (e) {
-            req.logger.error("Erro ao processar requisição de listar tarefas", "erro="+ e.message)
+            req.logger.error("Erro ao processar requisição de listar tarefas", "erro=" + e.message)
             res.status(500).json({
                 status: 500,
                 erro: "Não foi possível listar as tarefas"
@@ -28,8 +31,8 @@ class TarefaController extends HttpController {
         try {
             const servico = new TarefaService(req.usuario.id);
             const resultado = await servico.cadastrar(req.body);
-            
-            if(resultado.erros) {
+
+            if (resultado.erros) {
                 return res.status(400).json({
                     status: 400,
                     erro: resultado.erros
@@ -41,7 +44,7 @@ class TarefaController extends HttpController {
             });
 
         } catch (e) {
-            req.logger.error("Erro ao processar requisição de cadastro", "erro="+ e.message)
+            req.logger.error("Erro ao processar requisição de cadastro", "erro=" + e.message)
             res.status(500).json({
                 status: 500,
                 erro: "Não foi possível cadastrar a tarefa"
@@ -63,13 +66,13 @@ class TarefaController extends HttpController {
             res.json({
                 msg: "Tarefa atualizada com sucesso"
             })
-    
+
         } catch (e) {
-            req.logger.error("Erro ao processar requisição de edição", "erro="+ e.message)
+            req.logger.error("Erro ao processar requisição de edição", "erro=" + e.message)
             res.status(500).json({
                 status: 500,
                 erro: "Não foi possível editar a tarefa"
-            }); 
+            });
         }
     }
 
@@ -93,7 +96,7 @@ class TarefaController extends HttpController {
                 msg: "Tarefa deletada com sucesso"
             })
         } catch (e) {
-            req.logger.error("Erro ao processar requisição de deleção", "erro="+ e.message)
+            req.logger.error("Erro ao processar requisição de deleção", "erro=" + e.message)
             res.status(500).json({
                 status: 500,
                 erro: "Não foi possível deletar a tarefa"
