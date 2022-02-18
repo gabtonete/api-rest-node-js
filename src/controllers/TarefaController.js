@@ -76,7 +76,7 @@ class TarefaController extends HttpController {
     async deletar(req, res) {
         try {
             const servico = new TarefaService(req.usuario.id);
-            const resultado = await servico.deletar(req.params.id);
+            const resultado = await servico.deletar(req.query);
             if (resultado.erros) {
                 return res.status(400).json({
                     status: 400,

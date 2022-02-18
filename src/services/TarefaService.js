@@ -1,4 +1,4 @@
-const TarefaRepository = require('../repositories/impl/MongoDBTarefaRepository'); 
+const   TarefaRepository  = require('../repositories/impl/MongoDBTarefaRepository'); 
 
 class TarefaService {
     constructor(idUsuario) {
