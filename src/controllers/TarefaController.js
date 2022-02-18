@@ -1,15 +1,12 @@
-const HttpController = require("./HttpController");
-const TarefaService = require("../services/TarefaService");
+const HttpController = require('./HttpController');
+const TarefaService = require('../services/TarefaService');
 
 class TarefaController extends HttpController {
-    setupRoutes(baseUrl) {
-        this.express.get(`${baseUrl}/tarefa`, this.listar.bind(this));
-        this.express.post(`${baseUrl}/tarefa`, this.cadastrar.bind(this));
-        this.express.put(`${baseUrl}/tarefa/:id`, this.editar.bind(this));
-        this.express.delete(`${baseUrl}/tarefa/:id`, function (req, res) {
-            res.header("Access-Control-Allow-Origin", "*");
-            this.deletar.bind(this);
-        });
+    configurarRotas(basePath) {
+        this.express.get(`${basePath}/tarefa`, this.listar.bind(this));
+        this.express.post(`${basePath}/tarefa`, this.cadastrar.bind(this));
+        this.express.put(`${basePath}/tarefa/:id`, this.editar.bind(this));
+        this.express.delete(`${basePath}/tarefa/:id`, this.deletar.bind(this));
     }
 
     async listar(req, res) {
@@ -17,12 +14,11 @@ class TarefaController extends HttpController {
             const servico = new TarefaService(req.usuario.id);
             const tarefas = await servico.listar(req.query);
             res.json(tarefas);
-
         } catch (e) {
-            req.logger.error("Erro ao processar requisição de listar tarefas", "erro=" + e.message)
+            req.logger.error('erro ao processar requisição de listagem de tarefas', 'erro=' + e.message);
             res.status(500).json({
                 status: 500,
-                erro: "Não foi possível listar as tarefas"
+                erro: 'Não foi possível listar as tarefas, tente novamente mais tarde!'
             });
         }
     }
@@ -33,21 +29,22 @@ class TarefaController extends HttpController {
             const resultado = await servico.cadastrar(req.body);
 
             if (resultado.erros) {
-                return res.status(400).json({
-                    status: 400,
-                    erro: resultado.erros
-                });
+                return res
+                    .status(400)
+                    .json({
+                        status: 400,
+                        erro: resultado.erros
+                    });
             }
 
             return res.json({
-                msg: "Tarefa cadastrada com sucesso!"
+                msg: 'Tarefa cadastrada com sucesso'
             });
-
         } catch (e) {
-            req.logger.error("Erro ao processar requisição de cadastro", "erro=" + e.message)
+            req.logger.error('erro ao processar requisição de cadastro de tarefa', 'erro=' + e.message);
             res.status(500).json({
                 status: 500,
-                erro: "Não foi possível cadastrar a tarefa"
+                erro: 'Não foi possível cadastrar a tarefa, tente novamente mais tarde!'
             });
         }
     }
@@ -55,51 +52,49 @@ class TarefaController extends HttpController {
     async editar(req, res) {
         try {
             const servico = new TarefaService(req.usuario.id);
-            const resultado = await servico.editar(req.params.id, req.body);
-            if (resultado.erros) {
-                return res.status(400).json({
-                    status: 400,
-                    erro: resultado.erros
-                });
+            const resposta = await servico.editar(req.params.id, req.body);
+            if (resposta.erros) {
+                return res
+                    .status(400)
+                    .json({
+                        status: 400,
+                        erro: resposta.erros
+                    });
             }
 
             res.json({
-                msg: "Tarefa atualizada com sucesso"
-            })
-
+                msg: 'Tarefa atualizada com sucesso'
+            });
         } catch (e) {
-            req.logger.error("Erro ao processar requisição de edição", "erro=" + e.message)
+            req.logger.error('erro ao processar requisição de edição de tarefa', 'erro=' + e.message);
             res.status(500).json({
                 status: 500,
-                erro: "Não foi possível editar a tarefa"
+                erro: 'Não foi possível editar a tarefa, tente novamente mais tarde!'
             });
         }
     }
 
     async deletar(req, res) {
         try {
-
-            console.log(req.params);
-            console.log(req.params.id);
-
             const servico = new TarefaService(req.usuario.id);
-            const resultado = await servico.deletar(req.params.id);
-            console.log("resultado delete:", resultado)
-            if (resultado.erros) {
-                return res.status(400).json({
-                    status: 400,
-                    erro: resultado.erros
-                });
+            const resposta = await servico.deletar(req.params.id);
+            if (resposta.erros) {
+                return res
+                    .status(400)
+                    .json({
+                        status: 400,
+                        erro: resposta.erros
+                    });
             }
 
             res.json({
-                msg: "Tarefa deletada com sucesso"
-            })
+                msg: 'Tarefa deletada com sucesso'
+            });
         } catch (e) {
-            req.logger.error("Erro ao processar requisição de deleção", "erro=" + e.message)
+            req.logger.error('erro ao processar requisição de remoção de tarefa', 'erro=' + e.message);
             res.status(500).json({
                 status: 500,
-                erro: "Não foi possível deletar a tarefa"
+                erro: 'Não foi possível excluir a tarefa, tente novamente mais tarde!'
             });
         }
     }

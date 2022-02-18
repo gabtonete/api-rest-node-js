@@ -1,6 +1,5 @@
-const TarefaRepository = require('../TarefaRepository');
 const Tarefa = require('../../models/Tarefa');
-
+const TarefaRepository = require('../TarefaRepository');
 const StatusTarefa = require('../../enum/StatusTarefa');
 
 const transformarTarefa = (tarefaBD) => {
@@ -14,19 +13,19 @@ const transformarTarefa = (tarefaBD) => {
 }
 
 class MongoDBTarefaRepository {
-    static cadastrar(dados){
+    static cadastrar(dados) {
         return Tarefa.create(dados);
     }
 
     static editar(id, dados) {
-        return Tarefa.findByIdAndUpdate(id, dados)
+        return Tarefa.findByIdAndUpdate(id, dados);
     }
 
     static deletar(id) {
-        return Tarefa.findByIdAndDelete(id)
+        return Tarefa.findByIdAndDelete(id);
     }
 
-    static async filtrar({
+    static async filtrarPorUsuarioPeriodoEStatus({
         periodoDe,
         periodoAte,
         status,
@@ -36,20 +35,24 @@ class MongoDBTarefaRepository {
             idUsuario
         }
 
-        if(periodoDe && periodoDe.trim()) {
+        if (periodoDe && periodoDe.trim()) {
+            // converte a string passada como parametro no periodoDe para uma data do javascript
             const dataPeriodoDe = new Date(periodoDe);
             query.dataPrevistaConclusao = {
+                // >=
                 $gte: dataPeriodoDe
-            } 
+            }
         }
 
-        if(periodoAte && periodoAte.trim()) {
+        if (periodoAte && periodoAte.trim()) {
+            // converte a string passada como argumento para o periodoAte para uma data do javascript
             const dataPeriodoAte = new Date(periodoAte);
-            if(!query.dataPrevistaConclusao) {
+            if (!query.dataPrevistaConclusao) {
                 query.dataPrevistaConclusao = {};
             }
 
-            query.dataPrevistaConclusao.$lte =  dataPeriodoAte
+            // aplica filtro <= dataPeriodoAte
+            query.dataPrevistaConclusao.$lte = dataPeriodoAte;
         }
 
         if (status && status.trim()) {
@@ -57,14 +60,16 @@ class MongoDBTarefaRepository {
             if (statusInt === StatusTarefa.EM_ABERTO) {
                 query.dataConclusao = null;
             } else if (statusInt === StatusTarefa.CONCLUIDO) {
+                // diz para o filtro pegar todas as tarefas com dataConclusão != null
                 query.dataConclusao = {
                     $ne: null
-                };
+                }
             }
         }
 
         const tarefas = await Tarefa.find(query);
-        if(tarefas) {
+        if (tarefas) {
+            // faz a transformação da lista de tarefas para o modelo esperado na aplicação
             return tarefas.map(t => transformarTarefa(t));
         }
 
@@ -72,9 +77,9 @@ class MongoDBTarefaRepository {
     }
 
     static async buscarPorId(idTarefa) {
-        const tarefaDB = await Tarefa.findById(idTarefa);
-        if (tarefaDB) {
-            return transformarTarefa(tarefaDB)
+        const tarefaBD = await Tarefa.findById(idTarefa);
+        if (tarefaBD) {
+            return transformarTarefa(tarefaBD);
         }
 
         return null;

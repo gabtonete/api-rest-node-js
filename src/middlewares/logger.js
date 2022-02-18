@@ -1,25 +1,24 @@
 module.exports = (req, res, next) => {
-
-    // O traceId é um valor aleatório para uma chamada no logger, colocamos para ter como parâmetro qual é a exceção ou para registro
-    const traceId = Math.ceil(Math.random() * 99999999999);
-
-    // A regra de negócio do logger
+    // gera um número aleatório para a requisição e arrendoda para devolver um número inteiro
+    const traceId = Math.ceil(Math.random() * 999999999999);
     const logger = {
+        // exibe mensagens de erro
         error: (mensagem, ...parametrosExtras) => {
-            console.error(`[ERROR] traceId=${traceId}, msg=${mensagem}`, ...parametrosExtras);
+            console.error(`[ERROR] traceId=${traceId}, msg=${mensagem},`, ...parametrosExtras);
         },
+        // exibe mensagens de depuração
         debug: (mensagem, ...parametrosExtras) => {
-            console.log(`[DEBUG] traceId=${traceId}, msg=${mensagem}`, ...parametrosExtras);
+            console.log(`[DEBUG] traceId=${traceId}, msg=${mensagem},`, ...parametrosExtras);
         },
+        // exibe mensagens informativas
         info: (mensagem, ...parametrosExtras) => {
-            console.info(`[INFO] traceId=${traceId}, msg=${mensagem}`, ...parametrosExtras);
+            console.info(`[INFO] traceId=${traceId}, msg=${mensagem},`, ...parametrosExtras);
         }
     }
 
-    logger.info(`requisicao recebida`, `url=${req.url}`, `metodo_http=${req.method}`);
+    logger.info('requisição recebida', `url=${req.url}`, `metodo_http=${req.method}`);
 
-    // O parâmetro any que faz com o que o logger possa ser chamado nos programas em qualquer lugar
+    // cria uma propriedade logger no objeto da requisição e atribui o objeto logger que criamos acima
     req.logger = logger;
-
     next();
 }

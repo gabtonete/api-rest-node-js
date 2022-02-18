@@ -1,14 +1,12 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema; // Usamos essa classe para que o mongoose configure uma collection automaticamente
-
+const Schema = mongoose.Schema;
 const md5 = require('md5');
 
 const mensagemErroObrigatorio = '*Campo obrigatório!';
-
-const UsuarioSchema = new Schema({ // O schema recebe o objeto com seus atributos em forma de json
+const UsuarioSchema = new Schema({
     nome: {
-        type: String,  // O tipo do dado do atributo que irá para a collection
-        required: [true, mensagemErroObrigatorio]  //  Define um atributo como obrigatório, caso não seja preenchido, mostrará esse Erro
+        type: String,
+        required: [true, mensagemErroObrigatorio]
     },
     email: {
         type: String,
@@ -20,12 +18,13 @@ const UsuarioSchema = new Schema({ // O schema recebe o objeto com seus atributo
     }
 });
 
-UsuarioSchema.pre('save', function (next) { // Essa função é executada ANTES (pre) do usuário ser salvo
-    this.senha = md5(this.senha);     // Salva a senha usando o algoritmo md5
+// define um evento que é executado antes do usuario ser salvo no banco
+UsuarioSchema.pre('save', function (next) {
+    // criptografa a senha do usuário para não ficar exposta no banco
+    this.senha = md5(this.senha);
     next();
 });
 
-const Usuario = mongoose.model('usuarios', UsuarioSchema); 
-// o método .model() do mongoose salva a collection 'usuarios', usando o modelo UsuarioSchema no MongoDB Atlas
-// Esse método foi salvo numa const para ela ser exportada no repository, onde será usado para acessar a collection e fazer métodos CRUD
+// faz o link do schema com a collection (leia tabela) 'usarios'
+const Usuario = mongoose.model('usuarios', UsuarioSchema);
 module.exports = Usuario;

@@ -1,80 +1,76 @@
 const express = require('express');
-
 const swaggerUi = require('swagger-ui-express');
 const swaggerFile = require('./swagger/swagger.json');
-
 const LoginController = require('./controllers/LoginController');
 const UsuarioController = require('./controllers/UsuarioController');
-const TarefaController = require('./controllers/TarefaController');
-const PerfilController = require('./controllers/PerfilController');
+const AppConstants = require('./enum/AppConstants');
+const MongoDBConnectionHelper = require('./helpers/MongoDBConnectionHelper');
 
-const cors = require('cors');
+const cors = require('./middlewares/cors');
 const logger = require('./middlewares/logger');
 const jwt = require('./middlewares/jwt');
-
-const AppConstants = require('./enum/AppConstants');
-
-const MongoDBHelper = require('./helpers/MongoDBHelper');
-
+const TarefaController = require('./controllers/TarefaController');
 
 class App {
-	// Nessa array todos os controllers ficarão guardados
-	#controllers
+    #controllers;
 
-	// Função principal que dá início a tudo e configura os middlewares (index.js)
-	start() {
-		this.#setupExpress();
-		this.#configureDatabase();
-		this.#loadControllers();
-		this.#startServer();
-	}
+    iniciar() {
+        // configurar o express
+        this.#configurarExpress();
+        // configurar conexão com banco de dados
+        this.#configurarBancoDeDados();
+        // carregar os controllers
+        this.#carregarControllers();
+        // iniciar o servidor
+        this.#iniciarServidor();
+    }
 
-	// A configuração do express e os middlewares
-	// A configuração urlencoded e json permite os controllers definirem uma rota através do baseController e da instância do express
-	#setupExpress = () => {
-		this.express = express();
+    #configurarExpress = () => {
+        // cria a instância do express para gerenciar o servidor
+        this.express = express();
 
-		// Essa linha faz com que o logger possa ser acessado de qualquer lugar do programa, tem acesso ao req e ao res
-		this.express.use(logger);
+        // registra o middleware para fazer log das requisições
+        this.express.use(logger);
 
-		this.express.use(express.urlencoded({ extended: true }));
-		this.express.use(express.json());
+        // registra os middlewares para fazer a conversão das requisições da API
+        this.express.use(express.urlencoded({ extended: true }));
+        this.express.use(express.json());
 
-		// Habilita o middleware do cors, evitando conexões em mesma port
-		this.express.use(cors());
+        // registra o middleware para habilitar requisições de outros dominios
+        this.express.use(cors);
 
-		// Essa linha faz com que o jwt possa ser acessado de qualquer lugar do programa, tem acesso ao req e ao res
-		this.express.use(jwt);
+        // registra o middleware do jwt para fazer validação do acesso as rotas através das requisições recebidas
+        this.express.use(jwt);
 
-		this.express.use(`${AppConstants.BASE_API_URL}/docs`,
-			swaggerUi.serve,
-			swaggerUi.setup(swaggerFile)
-		);
-	}
+        // configura o swagger da aplicação para servir a documentação
+        this.express.use(
+            `${AppConstants.BASE_API_URL}/docs`,
+            swaggerUi.serve,
+            swaggerUi.setup(swaggerFile)
+        );
+    }
 
-	// Conexão com o banco de dados através da connectionstring nesse helper, utiliza o mongoose para usar o método connect()
-	#configureDatabase = () => {
-		MongoDBHelper.connect();
-	}
+    #configurarBancoDeDados = () => {
+        MongoDBConnectionHelper.conectar();
+    }
 
-	// Lista e carrega os controllers do programa
-	#loadControllers = () => {
-		this.#controllers = [
-			new LoginController(this.express),
-			new UsuarioController(this.express),
-			new TarefaController(this.express),
-			new PerfilController(this.express)
-		];
-	}
+    #carregarControllers = () => {
+        // atribui para propriedade #controllers a lista de controllers disponiveis da aplicação
+        this.#controllers = [
+            new LoginController(this.express),
+            new UsuarioController(this.express),
+            new TarefaController(this.express)
+        ];
+    }
 
-	// Método principal que sobe o programa em uma porta definida no .env ou aqui através do método listen do express
-	#startServer = () => {
-		const { PORT, LOCAL_ADDRESS='0.0.0.0' } = process.env;
-		this.express.listen(PORT, LOCAL_ADDRESS, () => {
-			console.log(`Aplicação executando na porta ${PORT}`);
-		});
-	}
+    #iniciarServidor = () => {
+        // tenta pegar a porta a partir da variavel de ambiente EXPRESS_PORT
+        // se não tiver definida, vai usar a porta padrão 3001
+        const {PORT, LOCAL_ADDRESS='0.0.0.0' }  = process.env;
+        this.express.listen(PORT, LOCAL_ADDRESS, () => {
+            console.log(`Aplicação executando na porta ${PORT}`);
+        });
+    }
 }
 
 module.exports = App;
-

@@ -1,20 +1,18 @@
-const AppConstants = require('../enum/AppConstants')
+const AppConstants = require('../enum/AppConstants');
 
 class HttpController {
-    // O baseController obriga os controllers a terem uma instância do express para que seja definida uma rota
-    constructor(express) {
-        if (!express) {
+    constructor(instanciaExpress) {
+        if (!instanciaExpress) {
             throw new Error('A instância do express é obrigatória');
         }
-        
-        // tendo uma isntância do express, o base cria um método setupRoute e define qual a rota base (/api)
-        this.express = express;
-        this.setupRoutes(AppConstants.BASE_API_URL);
+
+        // persiste na propriedade express do controller a instância do express criada no App.js
+        this.express = instanciaExpress;
+        this.configurarRotas(AppConstants.BASE_API_URL);
     }
 
-    // Implementação obrigatória do setupRoutes nos controllers
-    setupRoutes(baseUrl) {
-        throw new Error('Método configurarRotas precisa ser implementado');
+    configurarRotas(baseUrl) {
+        throw new Error('Método configurarRotas precisa ser implementado!');
     }
 }
 

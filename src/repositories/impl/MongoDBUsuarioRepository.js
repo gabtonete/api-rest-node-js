@@ -1,39 +1,34 @@
 const UsuarioRepository = require('../UsuarioRepository');
-const Usuario = require('../../models/Usuario'); // O model com o métodos .model() do mongoose para criação da collection no Atlas
+const Usuario = require('../../models/Usuario');
 
-const transformarUsuario = (usuarioDB) => {
+// transforma o usuario retornado do banco de dados, para o formato que a aplicação espera
+const transformarUsuario = (usuarioBD) => {
     return {
-        id: usuarioDB._doc._id.toString(),
-        nome: usuarioDB._doc.nome,
-        email: usuarioDB._doc.email,
+        id: usuarioBD._doc._id.toString(),
+        nome: usuarioBD._doc.nome,
+        email: usuarioBD._doc.email
     }
 }
 
 class MongoDBUsuarioRepository {
-    // Método create usando parâmetros que serão recebidos no controller UsuarioController.js
-    // Esse método cadastrar() utiliza o objeto Usuario (model) e devolve pro Schema os dadosUsuario (que virá do body) cadastrando assim na collection usuario
-    // ->> UsuarioService.js para fazer a regra de negócio que filtra o nome/email/senha
     static cadastrar(dadosUsuario) {
         return Usuario.create(dadosUsuario);
     }
 
-    // Encontra no banco de dados um valor que seja igual ao filtro (parâmetro) passado
-    // Pode ser usado para buscar login/senha, ou quem sabe um email já cadastrado
-    // O parâmetro filtro é um parâmetro vazio, podendo ser passado qualquer coisa dentro dele, desde que esteja de acordo com os atributos do Usuario
+    // define o método filtrar com um parametro default
     static async filtrar(filtro = {}) {
         let usuarios = await Usuario.find(filtro);
-
         if (usuarios) {
-            usuarios = usuarios.map(u => transformarUsuario(u));
-
-            return usuarios;
+            usuarios = usuarios.map(u => transformarUsuario(u))
         }
+
+        return usuarios;
     }
 
     static async buscarPorId(idUsuario) {
-        const usuarioDB = await Usuario.findById(idUsuario);
-        if (usuarioDB) {
-            return transformarUsuario(usuarioDB)
+        const usuarioBD = await Usuario.findById(idUsuario);
+        if (usuarioBD) {
+            return transformarUsuario(usuarioBD);
         }
 
         return null;
