@@ -6,4 +6,4 @@ const App = require('./src/App.js');
 
 // Início do programa através do método .start() do objeto app da classe App;
 const app = new App();
-app.start();
+app.iniciar();
