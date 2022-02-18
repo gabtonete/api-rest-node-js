@@ -75,6 +75,9 @@ class TarefaController extends HttpController {
 
     async deletar(req, res) {
         try {
+
+            console.log(req.params.id);
+
             const servico = new TarefaService(req.usuario.id);
             const resultado = await servico.deletar(req.params.id);
             console.log("resultado delete:", resultado)
