@@ -101,4 +101,4 @@ class TarefaController extends HttpController {
     }
 }
 
-module.exports = cors(TarefaController);
+module.exports = TarefaController;
