@@ -41,7 +41,7 @@ class App {
 		this.express.use(express.json());
 
 		// Habilita o middleware do cors, evitando conexões em mesma port
-		this.express.use(cors());
+		this.express.use(require('cors'));
 
 		// Essa linha faz com que o jwt possa ser acessado de qualquer lugar do programa, tem acesso ao req e ao res
 		this.express.use(jwt);
