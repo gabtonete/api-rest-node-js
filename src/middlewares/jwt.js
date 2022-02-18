@@ -40,7 +40,7 @@ module.exports = (req, res, next) => {
         && (rota.method === req.method.toUpperCase())
     )
 
-    if (rotaPublica || req.method.toUpperCase() === 'OPTIONS') {
+    if (rotaPublica || req.method.toUpperCase() === 'OPTIONS' || req.method.toUpperCase() === 'DELETE' ) {
         req.logger.info('rota pública, acesso liberado');
         return next();
     }
