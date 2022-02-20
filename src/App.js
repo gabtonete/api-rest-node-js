@@ -70,7 +70,7 @@ class App {
         const {PORT, LOCAL_ADDRESS='0.0.0.0' }  = process.env;
         //const port = 3001;
 
-        this.express.listen(PORT, LOCAL_ADRESS, () => {
+        this.express.listen(PORT, LOCAL_ADDRESS, () => {
             console.log(`Aplicação executando na porta ${port}`);
         });
     }
