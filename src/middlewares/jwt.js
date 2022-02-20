@@ -21,11 +21,20 @@ module.exports = (req, res, next) => {
     req.logger.info('verificando permissão de acesso a rota', `rota=${req.url}`);
 
     // verifica se a requisição recebida é de alguma rota publica
-    const rotaPublica = rotasPublicas.find(rota =>
-        (
-            `http://apirestgabrielt.herokuapp.com${rota.url}` === req.url || (rota.url.indexOf('*') !== -1 && req.url.indexOf(rota.url.replace('*', '')) !== -1)
+    const rotaPublica = rotasPublicas.find(rota => {
+        const rotaPublicaContemWidcard = rota.url.indexOf('*') !== -1;
+        const urlRrequisicaoContemParteDaRotaPublica = req.url.indexOf(rota.url.replace('*', '')) !== -1;
+
+        return ( // os parentesis definem a prioridade de verificação das condições
+            // verifica se a rota da requisição é identica
+            rota.url === req.url
+            || ( // ou a rota publica contem um '*' e a rota da requisição possui como parte da url a rota publica
+                rotaPublicaContemWidcard
+                && urlRrequisicaoContemParteDaRotaPublica
+            )
         )
-        && rota.method === req.method.toUpperCase())
+        && (rota.metodo === req.method.toUpperCase())
+    });
 
     if (rotaPublica || req.method.toUpperCase() === 'OPTIONS') {
         req.logger.info('rota publica, requisição liberada');
