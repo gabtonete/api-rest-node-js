@@ -8,7 +8,7 @@ const rotasPublicas = [
         metodo: 'POST'
     },
     {
-        url: '/api/docs*',
+        url: '/api/docs/*',
         metodo: 'GET'
     },
     {
@@ -23,15 +23,10 @@ module.exports = (req, res, next) => {
     // verifica se a requisição recebida é de alguma rota publica
     const rotaPublica = rotasPublicas.find(rota =>
         (
-            rota.url === req.url ||
-            (
-                rota.url.indexOf('*') !== -1 &&
-                req.url.indexOf(rota.url.replace('*', '')) !== -1
-            )
-        ) &&
-        (rota.method === req.method.toUpperCase())
-    )
-    
+            `http://apirestgabrielt.herokuapp.com${rota.url}` === req.url || (rota.url.indexOf('*') !== -1 && req.url.indexOf(rota.url.replace('*', '')) !== -1)
+        )
+        && rota.method === req.method.toUpperCase())
+
     if (rotaPublica || req.method.toUpperCase() === 'OPTIONS') {
         req.logger.info('rota publica, requisição liberada');
         return next();
