@@ -17,7 +17,7 @@ const rotasPublicas = [
     }
 ]
 
-module.exports = (req, res, next) => {
+module.exports = async (req, res, next) => {
     req.logger.info('verificando permissão de acesso a rota', `rota=${req.url}`);
 
     // verifica se a requisição recebida é de alguma rota publica
