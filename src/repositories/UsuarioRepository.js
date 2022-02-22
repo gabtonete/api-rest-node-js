@@ -14,5 +14,10 @@ module.exports = (Implementacao) => {
         throw new Error(`A classe ${Implementacao} não implementou o método buscarPorId!`);
     }
 
+    
+    if (!Implementacao.deletarTudo) {
+        throw new Error(`A classe ${Implementacao} não implementou o método deletarTudo!`);
+    }
+
     return Implementacao;
 }

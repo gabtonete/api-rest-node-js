@@ -1,4 +1,5 @@
 const UsuarioRepository = require('../repositories/impl/MongoDBUsuarioRepository');
+const TarefaRepository = require('../repositories/impl/MongoDBTarefaRepository');
 
 class UsuarioService {
     async cadastrar(dadosUsuario) {
@@ -60,6 +61,17 @@ class UsuarioService {
         }
 
         return retorno;
+    }
+
+    async deletar(usuarioId) {
+        if(await TarefaRepository.deletarTarefas(usuarioId) != -1){
+            await UsuarioRepository.deletarTudo(usuarioId);
+            return true;
+        }else{
+            return false;
+        }
+
+        
     }
 }
 

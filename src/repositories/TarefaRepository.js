@@ -22,5 +22,9 @@ module.exports = (Implementacao) => {
         throw new Error(`A classe ${Implementacao} não implementou o método buscarPorId!`);
     }
 
+    if (!Implementacao.deletarTarefas) {
+        throw new Error(`A classe ${Implementacao} não implementou o método deletarTarefas!`);
+    }
+
     return Implementacao;
 }

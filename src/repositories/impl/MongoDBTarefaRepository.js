@@ -84,6 +84,10 @@ class MongoDBTarefaRepository {
 
         return null;
     }
+
+    static async deletarTarefas(usuarioId) {
+        return await Tarefa.deleteMany({ idUsuario: usuarioId});
+    }
 }
 
 module.exports = TarefaRepository(MongoDBTarefaRepository);

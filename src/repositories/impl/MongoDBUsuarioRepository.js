@@ -33,6 +33,10 @@ class MongoDBUsuarioRepository {
 
         return null;
     }
+
+    static async deletarTudo(usuarioId) {
+        return await Usuario.deleteOne({_id: usuarioId});
+    }
 }
 
 module.exports = UsuarioRepository(MongoDBUsuarioRepository);
