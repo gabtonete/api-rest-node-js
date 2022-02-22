@@ -17,28 +17,28 @@ class UsuarioService {
             }
         }        
         
-        if (!dadosUsuario.email || !dadosUsuario.email.toString().trim()) {
+        if (!dadosUsuario.emailUsuario || !dadosUsuario.emailUsuario.toString().trim()) {
             listaErros.push('E-mail do usuário inválido');
         } else {
-            const temArroba = dadosUsuario.email.indexOf('@') !== -1;
-            const temPonto = dadosUsuario.email.indexOf('.') !== -1;
+            const temArroba = dadosUsuario.emailUsuario.indexOf('@') !== -1;
+            const temPonto = dadosUsuario.emailUsuario.indexOf('.') !== -1;
 
             if (!temArroba || !temPonto) {
                 listaErros.push('E-mail do usuário inválido');
             } else {
-                // filtra no banco se existe algum usuário com o mesmo email
-                const usuarioComMesmoEmail = await UsuarioRepository.filtrar({
-                    email: dadosUsuario.email
+                // filtra no banco se existe algum usuário com o mesmo emailUsuario
+                const usuarioComMesmoemailUsuario = await UsuarioRepository.filtrar({
+                    email: dadosUsuario.emailUsuario
                 });
 
-                if (usuarioComMesmoEmail && usuarioComMesmoEmail.length) {
-                    listaErros.push('Já existe um usuário com o mesmo email cadastrado');
+                if (usuarioComMesmoemailUsuario && usuarioComMesmoemailUsuario.length) {
+                    listaErros.push('Já existe um usuário com o mesmo emailUsuario cadastrado');
                 }
             }
         }
 
-        if (!dadosUsuario.senha || !dadosUsuario.senha.trim()) {
-            listaErros.push('Senha inválida');
+        if (!dadosUsuario.senhaUsuario || !dadosUsuario.senhaUsuario.trim()) {
+            listaErros.push('senhaUsuario inválida');
         }
 
         const retorno = {
@@ -52,8 +52,8 @@ class UsuarioService {
             // faz o cadastro do usuario efetivamente no banco de dados
             const usuarioCadastrado = await UsuarioRepository.cadastrar({
                 nome: dadosUsuario.nome,
-                email: dadosUsuario.email,
-                senha: dadosUsuario.senha
+                email: dadosUsuario.emailUsuario,
+                senha: dadosUsuario.senhaUsuario
             });
 
             retorno.usuario = usuarioCadastrado;

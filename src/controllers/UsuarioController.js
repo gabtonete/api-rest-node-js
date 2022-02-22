@@ -13,7 +13,7 @@ class UsuarioController extends HttpController {
         try {
             const servico = new UsuarioService();
             const retornoServico = await servico.cadastrar(dadosUsuario);
-
+            
             if (retornoServico.erros) {
                 return res
                     .status(400)
