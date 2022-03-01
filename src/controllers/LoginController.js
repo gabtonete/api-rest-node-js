@@ -9,6 +9,11 @@ class LoginController extends HttpController {
         // que o contexto que deve ser usado é da próprio objeto da
         // classe LoginController
         this.express.post(`${baseUrl}/login`, this.login.bind(this));
+        this.express.get(`${baseUrl}/mostrar`, this.mostrar.bind(this))
+    }
+
+    mostrar(req,res) {
+        res.status(200).json({msg:"Ok"})
     }
 
     async login(req, res) {
