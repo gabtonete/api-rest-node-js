@@ -14,6 +14,10 @@ const rotasPublicas = [
     {
         url: '/api/usuario',
         metodo: 'POST'
+    },
+    {
+        url: '/api/mostrar',
+        metodo: 'GET'
     }
 ]
 
