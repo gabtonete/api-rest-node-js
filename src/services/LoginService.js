@@ -18,7 +18,7 @@ class LoginService {
         }
 
         // Gera o token de acesso usando o JWT
-        const token = jwt.sign({ _id: usuario.id }, 'chavesecreta');
+        const token = jwt.sign({ _id: usuario.id }, SECRETKEY);
 
         // Devolve as informações do usuário autenticado com o seu token de acesso
         return {

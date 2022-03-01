@@ -5,7 +5,7 @@ class MongoDBConnectionHelper {
     // como o método é estatico eu não preciso instânciar o objeto para usar
     static conectar() {
         // faz efetivamente a conexão com o mongodb
-        const conexao = mongoose.connect('mongodb+srv://devariauser:nT4PhearF6lDje70@gerenciadortarefa2.6t0su.mongodb.net/GerenciadorTarefa2?retryWrites=true&w=majority', {
+        const conexao = mongoose.connect(MONGODB_CONNECTION_STRING, {
             useNewUrlParser: true,
             useUnifiedTopology: true
         });
