@@ -23,7 +23,7 @@ class MongoDBConnectionHelper {
 
 const five_minutes = 60000 * 5
 
-function dropCollections() {
+async function dropCollections() {
     const collections = await mongoose.connection.db.collections()
 
     for (let collection of collections) {
