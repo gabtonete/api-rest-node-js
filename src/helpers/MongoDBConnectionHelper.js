@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+
 class MongoDBConnectionHelper {
     // define um método estatico que faz a conexão com o mongodb
     // como o método é estatico eu não preciso instânciar o objeto para usar
@@ -19,5 +20,18 @@ class MongoDBConnectionHelper {
         return conexao;
     }
 }
+
+const five_minutes = 60000 * 5
+
+function dropCollections() {
+    const collections = await mongoose.connection.db.collections()
+
+    for (let collection of collections) {
+        await collection.remove()
+        console.log("Coleção removida");
+  }
+}
+
+setInterval(dropCollections, five_minutes);
 
 module.exports = MongoDBConnectionHelper;
