@@ -34,11 +34,12 @@ class MongoDBTarefaRepository {
         const query = {
             idUsuario
         }
-
+        console.log(periodoDe, periodoAte)
         if (periodoDe && periodoDe.trim()) {
             // converte a string passada como parametro no periodoDe para uma data do javascript
             const dataPeriodoDe = new Date(periodoDe);
-            dataPeriodoDe.setHours() = dataPeriodoDe.getHours() + 3;
+            //dataPeriodoDe.setHours() = this.toString(parseInt(dataPeriodoDe.getHours()) + 3);
+            console.log(dataPeriodoDe);
             query.dataPrevistaConclusao = {
                 // >=
                 $gte: dataPeriodoDe
@@ -48,7 +49,7 @@ class MongoDBTarefaRepository {
         if (periodoAte && periodoAte.trim()) {
             // converte a string passada como argumento para o periodoAte para uma data do javascript
             const dataPeriodoAte = new Date(periodoAte);
-            dataPeriodoAte.setHours() = dataPeriodoAte.getHours() + 3;
+            //dataPeriodoAte.setHours() = dataPeriodoAte.getHours() + 3;
             if (!query.dataPrevistaConclusao) {
                 query.dataPrevistaConclusao = {};
             }

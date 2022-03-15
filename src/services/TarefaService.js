@@ -30,9 +30,16 @@ class TarefaService {
         if (erros.length) {
             resposta.erros = erros;
         } else {
-            const dataPrevistaConclusao = new Date(dados.dataPrevistaConclusao);
-            dataPrevistaConclusao.setHours(dataPrevistaConclusao.getHours + 3)
-            
+            console.log(dados)
+            const dataEmString = dados.dataPrevistaConclusao
+
+            const year = dataEmString.substring(0, 4);
+            const month = dataEmString.substring(5, 7);
+            const day = dataEmString.substring(8, 10);
+
+            const data = new Date();
+            const dataPrevistaConclusao = new Date(parseInt(year), parseInt(month), parseInt(day), data.getHours(), data.getMinutes(), data.getSeconds(), data.getMilliseconds());
+            console.log(dataPrevistaConclusao)
             // faz o if ternário para determinar a dataConclusao
             const dataConclusao = dados.dataConclusao // verifica se a data de conclusão foi informada
                 ? new Date(dados.dataConclusao) // caso positivo, converte para data do js
