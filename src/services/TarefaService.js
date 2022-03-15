@@ -31,6 +31,8 @@ class TarefaService {
             resposta.erros = erros;
         } else {
             const dataPrevistaConclusao = new Date(dados.dataPrevistaConclusao);
+            dataPrevistaConclusao.setHours(dataPrevistaConclusao.getHours + 3)
+            
             // faz o if ternário para determinar a dataConclusao
             const dataConclusao = dados.dataConclusao // verifica se a data de conclusão foi informada
                 ? new Date(dados.dataConclusao) // caso positivo, converte para data do js
@@ -78,10 +80,12 @@ class TarefaService {
 
         if (dados.dataPrevistaConclusao && dados.dataPrevistaConclusao.trim()) {
             dadosAtualizar.dataPrevistaConclusao = new Date(dados.dataPrevistaConclusao);
+            dadosAtualizar.dataPrevistaConclusao.setHours() = dadosAtualizar.dataPrevistaConclusao.getHours() + 3;
         }
 
         if (dados.dataConclusao && dados.dataConclusao.trim()) {
             dadosAtualizar.dataConclusao = new Date(dados.dataConclusao);
+            dadosAtualizar.dataConclusao.setHours() = dadosAtualizar.dataConclusao.getHours() + 3;
         }
 
         const tarefaEditada = await TarefaRepository.editar(id, dadosAtualizar);
