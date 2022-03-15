@@ -67,10 +67,9 @@ class App {
         // tenta pegar a porta a partir da variavel de ambiente EXPRESS_PORT
         // se não tiver definida, vai usar a porta padrão 3001
 
-        const {PORT, LOCAL_ADDRESS='0.0.0.0' }  = process.env;
-        //const PORT = 3001;
+        const { PORT }= process.env
 
-        this.express.listen(PORT, LOCAL_ADDRESS, () => {
+        this.express.listen(PORT, () => {
             console.log(`Aplicação executando na porta ${PORT}`);
         });
     }
