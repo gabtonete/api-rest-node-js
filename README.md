@@ -4,12 +4,16 @@ Demonstração de API RESTful em node.js para consumo de frontend e integração
 
 ## Construção da API
 
-1. MVC architecture
-2. Mongoose schema-based
-3. Security best practices with Jsonwebtoken (JWT)
+1. Arquitetura MVC
+2. mongoose
+3. jsonwebtoken
 4. Enabled CORS
-5. Code-first approach
-6. Logger control
-7. Swagger for API overview in dev environment
+6. Controle de logs
+7. Swagger para o ambiente de desenvolvimento da aplicação
 
-Todos os dados inseridos serão apagados a cada 5 minutos.
+## Ambiente de desenvolvimento
+
+1. Execute `npm install` para instalar as dependências da aplicação
+2. Configure as variáveis de ambiente em `.env`
+3. Execute o comando `node index.js` dentro da pasta raíz
+4. No ambiente de desenvolvimento execute `npm start` para carregar o `nodemon`
